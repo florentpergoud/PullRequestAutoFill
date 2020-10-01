@@ -3,7 +3,6 @@ let mockupUrl = null;
 let iOSUrl = null;
 let androidUrl = null;
 
-
 const searchForEditingPullRequestBody = () => {
     var description = document.getElementsByName('pull_request[body]')[0].value;
 
@@ -28,23 +27,21 @@ const searchForEditingPullRequestBody = () => {
     const iOSValue = verticalBarSplitedMockupPart[9];
     const androidValue = verticalBarSplitedMockupPart[10];
 
-    if(mockupValue.match(urlExpression) && !mockupUrl){
+    if(mockupValue.match(urlExpression)){
         mockupUrl = mockupValue.substring(urlExpression).trim().split('(')[1].split(')')[0];
-        document.getElementsByName('pull_request[body]')[0].value = document.getElementsByName('pull_request[body]')[0].value.replace("base=MOCKUP_URL",`base=${mockupUrl}`);
-        mockupReplacedFlag = true;
+        document.getElementsByName('pull_request[body]')[0].value = document.getElementsByName('pull_request[body]')[0].value.replaceAll("base=MOCKUP_URL",`base=${mockupUrl}`);  
     }
 
-    if(mockupValue.match(urlExpression) && !iOSUrl){
+    if(mockupValue.match(urlExpression)){
         iOSUrl = iOSValue.substring(urlExpression).trim().split('(')[1].split(')')[0];
         document.getElementsByName('pull_request[body]')[0].value = document.getElementsByName('pull_request[body]')[0].value.replace("compare=IOS_SCREEN_URL",`compare=${iOSUrl}`);
-        iOSReplacedFlag = true;
     }
-
-    if(mockupValue.match(urlExpression) && !androidUrl){
+    
+    if(mockupValue.match(urlExpression)){
         androidUrl = androidValue.substring(urlExpression).trim().split('(')[1].split(')')[0];
         document.getElementsByName('pull_request[body]')[0].value = document.getElementsByName('pull_request[body]')[0].value.replace("compare=ANDROID_SCREEN_URL",`compare=${androidUrl}`);
-        androidReplacedFlag = true;
     }
+   
 }
 
 const checkInterval = setInterval(searchForEditingPullRequestBody, 1000);
